@@ -33,6 +33,7 @@ void snellConstruct(Proxy &node, const std::string &group, const std::string &re
 void explodeVmess(std::string vmess, Proxy &node);
 void explodeVless(std::string vless, Proxy &node);
 void explodeHysteria(std::string hysteria, Proxy &node);
+void explodeWireguard(std::string wireguard, Proxy &node);
 void explodeSSR(std::string ssr, Proxy &node);
 void explodeSS(std::string ss, Proxy &node);
 void explodeTrojan(std::string trojan, Proxy &node);
@@ -40,7 +41,7 @@ void explodeQuan(const std::string &quan, Proxy &node);
 void explodeStdVMess(std::string vmess, Proxy &node);
 void explodeStdVless(std::string vless, Proxy &node);
 void explodeStdHysteria(std::string hysteria, Proxy &node);
-void explodeWireguard(std::string wireguard, Proxy &node);
+void explodeStdWireguard(std::string wireguard, Proxy &node);
 void explodeShadowrocket(std::string kit, Proxy &node);
 void explodeKitsunebi(std::string kit, Proxy &node);
 /// Parse a link
