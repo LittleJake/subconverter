@@ -86,8 +86,8 @@ void wireguardConstruct(Proxy &node, const std::string &group, const std::string
     node.PublicKey = publicKey;
     node.PrivateKey = privateKey;
     node.PreSharedKey = presharedKey;
-    node.IP = ip;
-    node.IPv6 = ipv6;
+    if (isIPv6(ip)) node.IPv6 = ip; else if (isIPv6(ipv6)) node.IPv6 = ipv6;
+    if (isIPv4(ipv6)) node.IP = ipv6; else if (isIPv4(ip)) node.IP = ip;
 }
 
 void vlessConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &flow, const std::string &mode, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls,const std::string &pbk, const std::string &sid, const std::string &fp ,tribool udp, tribool tfo, tribool scv, tribool tls13)

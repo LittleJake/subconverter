@@ -348,7 +348,7 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                     singleproxy["ip"] = x.IP;
                 if (!x.IPv6.empty())
                     singleproxy["ipv6"] = x.IPv6;
-                if (!x.IPv6.empty())
+                if (!x.PreSharedKey.empty())
                     singleproxy["pre-shared-key"] = x.PreSharedKey;
                 if (udp)
                     singleproxy["udp"] = true;
