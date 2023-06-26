@@ -40,6 +40,7 @@ void explodeQuan(const std::string &quan, Proxy &node);
 void explodeStdVMess(std::string vmess, Proxy &node);
 void explodeStdVless(std::string vless, Proxy &node);
 void explodeStdHysteria(std::string hysteria, Proxy &node);
+void explodeWireguard(std::string wireguard, Proxy &node)
 void explodeShadowrocket(std::string kit, Proxy &node);
 void explodeKitsunebi(std::string kit, Proxy &node);
 /// Parse a link
