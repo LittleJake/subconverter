@@ -15,6 +15,7 @@ enum ProxyType
     VMess,
     VLESS,
     Hysteria,
+    Wireguard,
     Trojan,
     Snell,
     HTTP,
@@ -108,6 +109,10 @@ struct Proxy
     String PublicKey;
     String ShortId;
 
+    String PrivateKey;
+    String PreSharedKey;
+    String IP;
+    String IPv6;
 };
 
 #define SS_DEFAULT_GROUP "SSProvider"
@@ -115,6 +120,7 @@ struct Proxy
 #define V2RAY_DEFAULT_GROUP "V2RayProvider"
 #define XRAY_DEFAULT_GROUP "XRayProvider"
 #define HYSTERIA_DEFAULT_GROUP "HysteriaProvider"
+#define WIREGUARD_DEFAULT_GROUP "WireguardProvider"
 #define SOCKS_DEFAULT_GROUP "SocksProvider"
 #define HTTP_DEFAULT_GROUP "HTTPProvider"
 #define TROJAN_DEFAULT_GROUP "TrojanProvider"

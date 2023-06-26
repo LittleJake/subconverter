@@ -80,6 +80,16 @@ void hysteriaConstruct(Proxy &node, const std::string &group, const std::string 
     node.FakeType = type;
 }
 
+void wireguardConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &publicKey, const std::string &privateKey, const std::string &presharedKey, const std::string &ip, const std::string &ipv6, tribool udp, tribool tfo, tribool scv, tribool tls13)
+{
+    commonConstruct(node, ProxyType::Wireguard, group, remarks, add, port, udp, tfo, scv, tls13);
+    node.PublicKey = publicKey;
+    node.PrivateKey = privateKey;
+    node.PreSharedKey = presharedKey;
+    node.IP = ip;
+    node.IPv6 = ipv6;
+}
+
 void vlessConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &flow, const std::string &mode, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls,const std::string &pbk, const std::string &sid, const std::string &fp ,tribool udp, tribool tfo, tribool scv, tribool tls13)
 {
     commonConstruct(node, ProxyType::VLESS, group, remarks, add, port, udp, tfo, scv, tls13);
@@ -184,6 +194,15 @@ void explodeHysteria(std::string hysteria, Proxy &node)
     if(regMatch(hysteria, "hysteria://(.*?)[:](.*)"))
     {
         explodeStdHysteria(hysteria, node);
+        return;
+    }
+}
+
+void explodeWireguard(std::string wireguard, Proxy &node)
+{
+    if(regMatch(wireguard, "wg://(.*?)[:](.*)"))
+    {
+        explodeStdWireguard(wireguard, node);
         return;
     }
 }
@@ -1321,6 +1340,35 @@ void explodeStdHysteria(std::string hysteria, Proxy &node)
     return;
 }
 
+void explodeStdWireGuard(std::string wireguard, Proxy &node)
+{
+    std::string add, port, publicKey, privateKey, presharedKey, ip, ipv6, udp, remarks;
+    std::string addition;
+    wireguard = wireguard.substr(5);
+    string_size pos;
+
+    pos = wireguard.rfind("#");
+    if(pos != wireguard.npos)
+    {
+        remarks = urlDecode(wireguard.substr(pos + 1));
+        wireguard.erase(pos);
+    }
+    const std::string stdwireguard_matcher = R"(^(.*)[:](\d+)[?](.*)$)";
+    if(regGetMatch(wireguard, stdwireguard_matcher, 4, 0, &add, &port, &addition))
+        return;
+    publicKey = getUrlArg(addition,"publicKey");
+    privateKey = getUrlArg(addition,"privateKey");
+    presharedKey = getUrlArg(addition,"presharedKey");
+    ip = getUrlArg(addition,"ip");
+    ipv6 = getUrlArg(addition,"ipv6");
+    udp = getUrlArg(addition,"udp");
+    
+    if(remarks.empty())
+        remarks = add + ":" + port;
+    wireguardConstruct(node, WIREGUARD_DEFAULT_GROUP, remarks, add, port, publicKey, privateKey, presharedKey, ip, ipv6, udp);
+    return;
+}
+
 void explodeStdVless(std::string vless, Proxy &node)
 {
     std::string add, port, type, id, aid, net, flow, pbk, sid, fp, mode, path, host, tls, remarks;
@@ -2252,6 +2300,8 @@ void explode(const std::string &link, Proxy &node)
         explodeVless(link, node);
     else if(strFind(link, "hysteria://"))
         explodeHysteria(link, node);
+    else if(strFind(link, "wg://"))
+        explodeWireguard(link, node);
     else if(strFind(link, "ss://"))
         explodeSS(link, node);
     else if(strFind(link, "socks://") || strFind(link, "https://t.me/socks") || strFind(link, "tg://socks"))

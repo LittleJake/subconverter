@@ -340,6 +340,19 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                     singleproxy.remove("port");
                 };
                 break;
+            case ProxyType::Wireguard:
+                singleproxy["type"] = "wireguard";
+                singleproxy["public-key"] = x.PublicKey;
+                singleproxy["private-key"] = x.PrivateKey;
+                if (!x.IP.empty())
+                    singleproxy["ip"] = x.IP;
+                if (!x.IPv6.empty())
+                    singleproxy["ipv6"] = x.IPv6;
+                if (!x.IPv6.empty())
+                    singleproxy["pre-shared-key"] = x.PreSharedKey;
+                if (udp)
+                    singleproxy["udp"] = true;
+                break;
             case ProxyType::VLESS:
                 singleproxy["type"] = "vless";
                 singleproxy["uuid"] = x.UserId;
