@@ -345,7 +345,7 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                 singleproxy["public-key"] = x.PublicKey;
                 singleproxy["private-key"] = x.PrivateKey;
                 singleproxy["remote-dns-resolve"] = true;
-                singleproxy["dns"] = ["1.1.1.1","8.8.8.8", "2001:4860:4860::8844"];
+                singleproxy["dns"] = {"1.1.1.1","8.8.8.8", "2001:4860:4860::8844"};
                 if (!x.IP.empty())
                     singleproxy["ip"] = x.IP;
                 if (!x.IPv6.empty())
