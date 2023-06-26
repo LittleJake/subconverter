@@ -1340,7 +1340,7 @@ void explodeStdHysteria(std::string hysteria, Proxy &node)
     return;
 }
 
-void explodeStdWireGuard(std::string wireguard, Proxy &node)
+void explodeStdWireguard(std::string wireguard, Proxy &node)
 {
     std::string add, port, publicKey, privateKey, presharedKey, ip, ipv6, udp, remarks;
     std::string addition;
