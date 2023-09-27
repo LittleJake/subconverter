@@ -1052,7 +1052,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
     std::string protocol, protoparam, obfs, obfsparam; //ssr
     std::string flow, mode; //trojan
     std::string user; //socks
-    std::string ports = "", up, down, auth_str, sni;//hysteria
+    std::string ports = "", up, down, auth_str, sni,insecure;//hysteria
     tribool udp, tfo, scv;
     Node singleproxy;
     uint32_t index = nodes.size();
@@ -1264,9 +1264,10 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
             singleproxy["protocol"] >>= net;
             if(singleproxy["obfs"].IsDefined())
                 singleproxy["obfs"] >>= obfsparam;
-            
             if(singleproxy["alpn"].IsDefined())
                 singleproxy["alpn"] >>= alpn;
+            if(singleproxy["insecure"].IsDefined())
+                singleproxy["insecure"] >>= insecure;
             
             hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam);
             break;
