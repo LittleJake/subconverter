@@ -1113,7 +1113,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
             }
             tls = safe_as<std::string>(singleproxy["tls"]) == "true" ? "tls" : "";
 
-            vmessConstruct(node, group, ps, server, port, "", id, aid, net, cipher, path, host, edge, tls, sni, , udp, tfo, scv);
+            vmessConstruct(node, group, ps, server, port, "", id, aid, net, cipher, path, host, edge, tls, sni, alpn, udp, tfo, scv);
             break;
         case "ss"_hash:
             group = SS_DEFAULT_GROUP;
@@ -1269,7 +1269,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
             if(singleproxy["insecure"].IsDefined())
                 singleproxy["insecure"] >>= insecure;
             
-            hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam);
+            hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam, insecure, udp, tfo, scv);
             break;
         default:
             continue;
