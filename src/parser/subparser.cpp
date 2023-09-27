@@ -1052,6 +1052,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
     std::string protocol, protoparam, obfs, obfsparam; //ssr
     std::string flow, mode; //trojan
     std::string user; //socks
+    std::string ports = "", up, down, auth_str, sni;//hysteria
     tribool udp, tfo, scv;
     Node singleproxy;
     uint32_t index = nodes.size();
@@ -1112,7 +1113,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
             }
             tls = safe_as<std::string>(singleproxy["tls"]) == "true" ? "tls" : "";
 
-            vmessConstruct(node, group, ps, server, port, "", id, aid, net, cipher, path, host, edge, tls, sni, alpn, udp, tfo, scv);
+            vmessConstruct(node, group, ps, server, port, "", id, aid, net, cipher, path, host, edge, tls, sni, , udp, tfo, scv);
             break;
         case "ss"_hash:
             group = SS_DEFAULT_GROUP;
@@ -1251,6 +1252,23 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
             singleproxy["version"] >>= aid;
 
             snellConstruct(node, group, ps, server, port, password, obfs, host, to_int(aid, 0), udp, tfo, scv);
+            break;
+        case "hysteria"_hash:
+            group = HYSTERIA_DEFAULT_GROUP;
+            singleproxy["auth_str"] >>= auth_str;
+            singleproxy["sni"] >>= sni;
+            singleproxy["ports"] >>= ports;
+            singleproxy["up"] >>= up;
+            singleproxy["down"] >>= down;
+            singleproxy["sni"] >>= sni;
+            singleproxy["protocol"] >>= net;
+            if(singleproxy["obfs"].IsDefined())
+                singleproxy["obfs"] >>= obfsparam;
+            
+            if(singleproxy["alpn"].IsDefined())
+                singleproxy["alpn"] >>= alpn;
+            
+            hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam);
             break;
         default:
             continue;
