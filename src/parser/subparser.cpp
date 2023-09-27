@@ -1052,7 +1052,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
     std::string protocol, protoparam, obfs, obfsparam; //ssr
     std::string flow, mode; //trojan
     std::string user; //socks
-    std::string ports = "", up, down, auth_str, sni,insecure;//hysteria
+    std::string ports = "", up, down, auth_str,insecure;//hysteria
     tribool udp, tfo, scv;
     Node singleproxy;
     uint32_t index = nodes.size();
