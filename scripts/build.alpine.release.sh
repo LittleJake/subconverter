@@ -38,7 +38,7 @@ cd ..
 wget https://github.com/ToruNiina/toml11/archive/refs/tags/v3.7.1.zip
 unzip v3.7.1.zip
 #cd toml11
-cd v3.7.1
+cd toml11-3.7.1
 cmake -DCMAKE_CXX_STANDARD=11 .
 make install -j4
 cd ..
