@@ -83,7 +83,7 @@ void hysteriaConstruct(Proxy &node, const std::string &group, const std::string 
 void hysteria2Construct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &auth, const std::string &host, const std::string &mport, const std::string &up, const std::string &down, const std::string &alpn, const std::string &obfsParam, const std::string &insecure ,tribool udp, tribool tfo, tribool scv, tribool tls13)
 {
     commonConstruct(node, ProxyType::Hysteria2, group, remarks, add, port, udp, tfo, scv, tls13);
-    node.Auth = auth;
+    node.Password = auth;
     node.Host = (host.empty() && !isIPv4(add) && !isIPv6(add)) ? add.data() : trim(host);
     node.MPort = mport;
     node.UpMbps = up;
@@ -1271,6 +1271,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
         case "hysteria2"_hash:
             group = HYSTERIA_DEFAULT_GROUP;
             singleproxy["auth_str"] >>= auth_str;
+            singleproxy["password"] >>= password;
             singleproxy["sni"] >>= sni;
             singleproxy["ports"] >>= ports;
             singleproxy["up"] >>= up;
@@ -1289,7 +1290,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
                     hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam, insecure, udp, tfo, scv);
                     break;
                 case "hysteria2"_hash:
-                    hysteria2Construct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam, insecure, udp, tfo, scv);
+                    hysteria2Construct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, password, sni, ports, up, down, alpn, obfsparam, insecure, udp, tfo, scv);
                     break;
             }
             break;
