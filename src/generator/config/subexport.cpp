@@ -339,6 +339,7 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                     singleproxy["ports"] = x.MPort;
                     singleproxy.remove("port");
                 };
+                break;
             case ProxyType::Hysteria2:
                 singleproxy["type"] = "hysteria2";
                 singleproxy["password"] = x.Password;
