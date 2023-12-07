@@ -339,6 +339,29 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                     singleproxy["ports"] = x.MPort;
                     singleproxy.remove("port");
                 };
+            case ProxyType::Hysteria2:
+                singleproxy["type"] = "hysteria2";
+                singleproxy["auth_str"] = x.Auth;
+                singleproxy["up"] = x.UpMbps;
+                singleproxy["down"] = x.DownMbps;
+                if (!tfo.is_undef())
+                    singleproxy["fast-open"] = tfo.get();
+                if (!x.FakeType.empty())
+                    singleproxy["protocol"] = x.FakeType;
+                if (!x.Host.empty())
+                    singleproxy["sni"] = x.Host;
+                if (!scv.is_undef())
+                    singleproxy["skip-cert-verify"] = scv.get();
+                if (x.Insecure == "1")
+                    singleproxy["skip-cert-verify"] = true;
+                if (!x.Alpn.empty())
+                    singleproxy["alpn"].push_back(x.Alpn);
+                if (!x.OBFSParam.empty())
+                    singleproxy["obfs"] = x.OBFSParam;
+                if (!x.MPort.empty()) {
+                    singleproxy["ports"] = x.MPort;
+                    singleproxy.remove("port");
+                };
                 break;
             case ProxyType::Wireguard:
                 singleproxy["type"] = "wireguard";
