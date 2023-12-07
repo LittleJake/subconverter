@@ -21,6 +21,7 @@ enum class ConfType
 };
 
 void hysteriaConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &auth, const std::string &host, const std::string &mport, const std::string &up, const std::string &down, const std::string &alpn, const std::string &obfsParam, const std::string &insecure ,tribool udp = tribool(), tribool tfo = tribool(), tribool scv = tribool(), tribool tls13 = tribool());
+void hysteria2Construct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &auth, const std::string &host, const std::string &mport, const std::string &up, const std::string &down, const std::string &alpn, const std::string &obfsParam, const std::string &insecure ,tribool udp = tribool(), tribool tfo = tribool(), tribool scv = tribool(), tribool tls13 = tribool());
 void vmessConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls, const std::string &sni, const std::string &alpn, tribool udp = tribool(), tribool tfo = tribool(), tribool scv = tribool(), tribool tls13 = tribool());
 void vlessConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &id, const std::string &aid, const std::string &net, const std::string &cipher, const std::string &flow, const std::string &mode, const std::string &path, const std::string &host, const std::string &edge, const std::string &tls,const std::string &pkd, const std::string &sid, const std::string &fp, tribool udp = tribool(), tribool tfo = tribool(), tribool scv = tribool(), tribool tls13 = tribool());
 void wireguardConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &publicKey, const std::string &privateKey, const std::string &presharedKey, const std::string &ip, const std::string &ipv6, tribool udp = tribool(), tribool tfo = tribool(), tribool scv = tribool(), tribool tls13 = tribool());
@@ -41,6 +42,7 @@ void explodeQuan(const std::string &quan, Proxy &node);
 void explodeStdVMess(std::string vmess, Proxy &node);
 void explodeStdVless(std::string vless, Proxy &node);
 void explodeStdHysteria(std::string hysteria, Proxy &node);
+void explodeStdHysteria2(std::string hysteria, Proxy &node);
 void explodeStdWireguard(std::string wireguard, Proxy &node);
 void explodeShadowrocket(std::string kit, Proxy &node);
 void explodeKitsunebi(std::string kit, Proxy &node);
