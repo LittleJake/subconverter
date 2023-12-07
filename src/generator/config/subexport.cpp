@@ -341,7 +341,7 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                 };
             case ProxyType::Hysteria2:
                 singleproxy["type"] = "hysteria2";
-                singleproxy["auth_str"] = x.Auth;
+                singleproxy["password"] = x.Password;
                 singleproxy["up"] = x.UpMbps;
                 singleproxy["down"] = x.DownMbps;
                 if (!tfo.is_undef())
