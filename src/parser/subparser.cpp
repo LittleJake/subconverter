@@ -80,6 +80,20 @@ void hysteriaConstruct(Proxy &node, const std::string &group, const std::string 
     node.FakeType = type;
 }
 
+void hysteria2Construct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &type, const std::string &auth, const std::string &host, const std::string &mport, const std::string &up, const std::string &down, const std::string &alpn, const std::string &obfsParam, const std::string &insecure ,tribool udp, tribool tfo, tribool scv, tribool tls13)
+{
+    commonConstruct(node, ProxyType::Hysteria2, group, remarks, add, port, udp, tfo, scv, tls13);
+    node.Auth = auth;
+    node.Host = (host.empty() && !isIPv4(add) && !isIPv6(add)) ? add.data() : trim(host);
+    node.MPort = mport;
+    node.UpMbps = up;
+    node.DownMbps = down;
+    node.Alpn = alpn;
+    node.OBFSParam = obfsParam;
+    node.Insecure = insecure;
+    node.FakeType = type;
+}
+
 void wireguardConstruct(Proxy &node, const std::string &group, const std::string &remarks, const std::string &add, const std::string &port, const std::string &publicKey, const std::string &privateKey, const std::string &presharedKey, const std::string &ip, const std::string &ipv6, tribool udp, tribool tfo, tribool scv, tribool tls13)
 {
     commonConstruct(node, ProxyType::Wireguard, group, remarks, add, port, udp, tfo, scv, tls13);
@@ -1254,6 +1268,7 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
             snellConstruct(node, group, ps, server, port, password, obfs, host, to_int(aid, 0), udp, tfo, scv);
             break;
         case "hysteria"_hash:
+        case "hysteria2"_hash:
             group = HYSTERIA_DEFAULT_GROUP;
             singleproxy["auth_str"] >>= auth_str;
             singleproxy["sni"] >>= sni;
@@ -1268,8 +1283,15 @@ void explodeClash(Node yamlnode, std::vector<Proxy> &nodes)
                 singleproxy["alpn"] >>= alpn;
             if(singleproxy["insecure"].IsDefined())
                 singleproxy["insecure"] >>= insecure;
-            
-            hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam, insecure, udp, tfo, scv);
+            switch(hash_(proxytype))
+            {
+                case "hysteria"_hash:
+                    hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam, insecure, udp, tfo, scv);
+                    break;
+                case "hysteria2"_hash:
+                    hysteria2Construct(node, HYSTERIA_DEFAULT_GROUP, ps, server, port, net, auth_str, sni, ports, up, down, alpn, obfsparam, insecure, udp, tfo, scv);
+                    break;
+            }
             break;
         default:
             continue;
@@ -1356,6 +1378,40 @@ void explodeStdHysteria(std::string hysteria, Proxy &node)
         remarks = add + ":" + port;
 
     hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, remarks, add, port, type, auth, host, mport, up, down, alpn, obfsParam, insecure);
+    return;
+}
+
+void explodeStdHysteria2(std::string hysteria, Proxy &node)
+{
+    // TODO
+    // std::string add, port, type, auth, host, mport, insecure, up, down, alpn, obfsParam, remarks;
+    // std::string addition;
+    // hysteria = hysteria.substr(11);
+    // string_size pos;
+
+    // pos = hysteria.rfind("#");
+    // if(pos != hysteria.npos)
+    // {
+    //     remarks = urlDecode(hysteria.substr(pos + 1));
+    //     hysteria.erase(pos);
+    // }
+    // const std::string stdhysteria_matcher = R"(^(.*)[:](\d+)[?](.*)$)";
+    // if(regGetMatch(hysteria, stdhysteria_matcher, 4, 0, &add, &port, &addition))
+    //     return;
+    // type = getUrlArg(addition,"protocol");
+    // auth = getUrlArg(addition,"auth");
+    // host = getUrlArg(addition,"peer");
+    // mport = getUrlArg(addition,"mport");
+    // insecure = getUrlArg(addition, "insecure");
+    // up = getUrlArg(addition,"upmbps");
+    // down = getUrlArg(addition,"downmbps");
+    // alpn = getUrlArg(addition,"alpn");
+    // obfsParam = getUrlArg(addition,"obfsParam");
+
+    // if(remarks.empty())
+    //     remarks = add + ":" + port;
+
+    // hysteriaConstruct(node, HYSTERIA_DEFAULT_GROUP, remarks, add, port, type, auth, host, mport, up, down, alpn, obfsParam, insecure);
     return;
 }
 
@@ -2317,7 +2373,7 @@ void explode(const std::string &link, Proxy &node)
         explodeVmess(link, node);
     else if(strFind(link, "vless://") || strFind(link, "vless1://"))
         explodeVless(link, node);
-    else if(strFind(link, "hysteria://"))
+    else if(strFind(link, "hysteria://") || strFind(link, "hysteria2://"))
         explodeHysteria(link, node);
     else if(strFind(link, "wg://"))
         explodeWireguard(link, node);
