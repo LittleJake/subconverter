@@ -1,6 +1,7 @@
 #ifndef STRING_HASH_H_INCLUDED
 #define STRING_HASH_H_INCLUDED
 
+#include <cstdint>
 #include <string>
 
 using hash_t = uint64_t;
