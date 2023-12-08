@@ -6,6 +6,7 @@
 #include <atomic>
 #include <event2/http.h>
 #include <curl/curlver.h>
+#include <cstdint>
 
 #include "../utils/map_extra.h"
 #include "../utils/string.h"
