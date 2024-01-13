@@ -337,7 +337,6 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                     singleproxy["obfs"] = x.OBFSParam;
                 if (!x.MPort.empty()) {
                     singleproxy["ports"] = x.MPort;
-                    singleproxy.remove("port");
                 };
                 break;
             case ProxyType::Hysteria2:
@@ -361,7 +360,6 @@ proxyToClash(std::vector<Proxy> &nodes, YAML::Node &yamlnode, const ProxyGroupCo
                     singleproxy["obfs"] = x.OBFSParam;
                 if (!x.MPort.empty()) {
                     singleproxy["ports"] = x.MPort;
-                    singleproxy.remove("port");
                 };
                 break;
             case ProxyType::Wireguard:
